@@ -2,14 +2,14 @@
 #include<cmath>
 
 
-bool isPrime(int x){
-    int o = 0;
+bool is_prime(int x){
+    int amount_of_dividers = 0;
     for(int i=1;i<=x;i++){
         if(x%i == 0){
-            o++;
+            amount_of_dividers++;
         }
     }
-    if(o == 2){
+    if(amount_of_dividers == 2){
         return true;
     }
     return false;
@@ -35,7 +35,7 @@ int main(){
 
     std::cout << "All k's: ";
     for(int p=1;p<=max_power;p++){
-        if(isPrime(p) && pow(2, p)-1 <= n){
+        if(is_prime(p) && pow(2, p)-1 <= n){
             std::cout << pow(2, p) - 1 << " ";
         }
     }
