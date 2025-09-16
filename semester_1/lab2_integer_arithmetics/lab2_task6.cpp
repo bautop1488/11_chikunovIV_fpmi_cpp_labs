@@ -16,17 +16,13 @@ bool isPrime(int x){
 }
 
 int main(){
-    using std::cout;
-    using std::cin;
-    using std::endl;
-
     int n, max_power;
 
-    cout << "Type n: ";
-    cin >> n;
+    std::cout << "Type n: ";
+    std::cin >> n;
 
-    if(!cin >> n){
-        cout << "Incorrect input, error";
+    if(!std::cin >> n){
+        std::cout << "Incorrect input, error";
         std::exit(1);
     }
 
@@ -37,10 +33,10 @@ int main(){
         }
     }
 
-    cout << "All k's: ";
+    std::cout << "All k's: ";
     for(int p=1;p<=max_power;p++){
         if(isPrime(p) && pow(2, p)-1 <= n){
-            cout << pow(2, p) - 1 << " ";
+            std::cout << pow(2, p) - 1 << " ";
         }
     }
 
