@@ -1,42 +1,38 @@
-#include<iostream>
-#include<cmath>
-
+#include <iostream>
+#include <cmath>
 
 bool is_prime(int x){
-    int amount_of_dividers = 0;
-    for(int i=1;i<=x;i++){
-        if(x%i == 0){
-            amount_of_dividers++;
+    int d = 0;
+    for(int i=1; i <= x;i++){
+        if(x % i == 0){
+            d++;
         }
     }
-    if(amount_of_dividers == 2){
+    if(d==2){
         return true;
     }
-    return false;
+    else{
+        return false;
+    }
 }
 
 int main(){
-    int n, max_power;
 
-    std::cout << "Type n: ";
+
+    int n;
+    std::cout << "type n: ";
     std::cin >> n;
 
     if(!std::cin >> n){
-        std::cout << "Incorrect input, error";
+        std::cout << "Invalid input, error";
         std::exit(1);
     }
 
-    for(int i=1;i<=n;i++){
-        if(n <= pow(2, i)){
-            max_power = i;
-            break;
-        }
-    }
+    std::cout << "all k's: " << std::endl;
 
-    std::cout << "All k's: ";
-    for(int p=1;p<=max_power;p++){
-        if(is_prime(p) && pow(2, p)-1 <= n){
-            std::cout << pow(2, p) - 1 << " ";
+    for(int i=1;pow(2, i)-1 <= n;i++){
+        if(is_prime(i)){
+            std::cout << pow(2, i)-1 << std::endl;
         }
     }
 
