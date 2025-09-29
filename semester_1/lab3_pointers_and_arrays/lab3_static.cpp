@@ -42,7 +42,10 @@ int main(){
         for(int i=0;i<n;i++){
             m[i] = dist(gen);
         }
-        
+        for(int i=0;i<n;i++){
+            std::cout << m[i] << ' ';
+        }
+        std::cout << '\n';
     }
 
     
@@ -77,7 +80,7 @@ int main(){
         }
     }
 
-    int sum = 0;
+    double sum = 0;
     for(int i=pos1+1;i<pos2;i++){
         sum += m[i];
     }
