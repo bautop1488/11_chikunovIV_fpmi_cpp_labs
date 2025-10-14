@@ -12,14 +12,12 @@ int* buble_sort(int* a, int n){
     }
 
     return a;
-
 }
 
 int main(){
-
     const int MAXSIZE = 100;
     int n;
-    int a[MAXSIZE];
+    int* a = new int(n);
 
     std::cout << "Type n: ";
 
@@ -42,5 +40,6 @@ int main(){
         std::cout << b[i] << ' ';
     }
 
+    delete[] a;
     return 0;
 }
