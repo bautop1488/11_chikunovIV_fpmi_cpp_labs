@@ -7,7 +7,10 @@ int main(){
     double* m = new double[MAXSIZE];
 
     std::cout << "Type n: ";
-    std::cin >> n;
+    if(!(std::cin >> n)){
+        std::cout << "Invalid input, error";
+        std::exit(1);
+    }
     if(n>MAXSIZE){
         std::cout  << "Error: Array out of bounds";
         std::exit(1);
