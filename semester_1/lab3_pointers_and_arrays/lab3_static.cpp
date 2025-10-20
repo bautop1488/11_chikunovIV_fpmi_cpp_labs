@@ -15,8 +15,7 @@ int main(){
     
     std::cout << "Do you want to manually enter elements or fill the array randomly?\nPress 1 to manually input, press 2 to random fill: ";
     int input = -1;
-    std::cin >> input;
-    if(!std::cin >> input || !(input==1 || input==2)){
+    if(!(std::cin >> input) || !(input==1 || input==2)){
         std::cout  << "Incorrect input";
         std::exit(1);
     }
