@@ -2,17 +2,12 @@
 #include <random>
 
 int main(){
-    const int MAXSIZE = 100;
     int n;
-    double* m = new double[MAXSIZE];
+    double* m = new double[n];
 
     std::cout << "Type n: ";
     if(!(std::cin >> n)){
         std::cout << "Invalid input, error";
-        std::exit(1);
-    }
-    if(n>MAXSIZE){
-        std::cout  << "Error: Array out of bounds";
         std::exit(1);
     }
     
