@@ -1,6 +1,35 @@
 #include <iostream>
 #include <random>
 
+void sum_after_zero(int** a, int n, int m){
+    for(int i=0;i<n;i++){
+        bool lamp = true;
+        for(int j=0;j<m;j++){
+            if(a[i][j] == 0){
+                lamp = false;
+            }
+        }
+        if(lamp){
+            int sum = 0;
+            for(int j=0;j<m;j++){
+                sum += a[i][j];
+            }
+            std::cout << sum << ", ";
+        }
+    }
+}
+
+int** replace_cols(int**a, int n, int m){
+    for(int j=0;j<m/2;j++){
+        for(int i=0;i<n;i++){
+            int t = a[i][m-j-1];
+            a[i][m-j-1] = a[i][j];
+            a[i][j] = t;
+        }
+    }
+    return a;
+}
+
 int main(){
     const int MAXROWS = 100;
     const int MAXCOLS= 100;
@@ -63,29 +92,9 @@ int main(){
     }
 
     std::cout << "Sums of elements in rows that dont contain 0 are ";
-    for(int i=0;i<n;i++){
-        bool lamp = true;
-        for(int j=0;j<m;j++){
-            if(a[i][j] == 0){
-                lamp = false;
-            }
-        }
-        if(lamp){
-            int sum = 0;
-            for(int j=0;j<m;j++){
-                sum += a[i][j];
-            }
-            std::cout << sum << ", ";
-        }
-    }
+    sum_after_zero(a, n, m);
 
-    for(int j=0;j<m/2;j++){
-        for(int i=0;i<n;i++){
-            int t = a[i][m-j-1];
-            a[i][m-j-1] = a[i][j];
-            a[i][j] = t;
-        }
-    }
+    a = replace_cols(a, n, m);
 
     for(int i=0;i<n;i++){
         std::cout << '\n';
@@ -93,7 +102,6 @@ int main(){
             std::cout << a[i][j] << ' ';
         }
     }
-
 
     for(int i = 0; i < MAXROWS; i++) {
         delete[] a[i];
