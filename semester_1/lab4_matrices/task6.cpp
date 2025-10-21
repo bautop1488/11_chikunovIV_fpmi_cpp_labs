@@ -29,6 +29,7 @@ int main(){
     }
 
     if(input == 1){
+        std::cout << "Type the elements of matrix:\n";
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 std::cin >> a[i][j];
