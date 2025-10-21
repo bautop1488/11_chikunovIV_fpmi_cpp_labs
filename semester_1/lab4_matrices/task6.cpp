@@ -31,22 +31,16 @@ int** replace_cols(int**a, int n, int m){
 }
 
 int main(){
-    const int MAXROWS = 100;
-    const int MAXCOLS= 100;
     int n, m;
-    int** a = new int*[MAXROWS];
+    int** a = new int*[n];
 
-    for(int i = 0; i < MAXROWS; i++) {
-        a[i] = new int[MAXCOLS];
+    for(int i = 0; i < n; i++) {
+        a[i] = new int[m];
     }
 
     std::cout << "Type n and m: ";
     if(!(std::cin >> n) || !(std::cin >> m)){
         std::cout << "Invalid input, error";
-        std::exit(1);
-    }
-    if(n>MAXROWS || m>MAXCOLS){
-        std::cout  << "Error: Matrix is out of bounds";
         std::exit(1);
     }
     
@@ -103,7 +97,7 @@ int main(){
         }
     }
 
-    for(int i = 0; i < MAXROWS; i++) {
+    for(int i = 0; i < n; i++) {
         delete[] a[i];
     }
     delete[] a;
