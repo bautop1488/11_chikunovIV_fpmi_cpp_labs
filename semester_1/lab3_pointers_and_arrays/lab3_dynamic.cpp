@@ -1,15 +1,60 @@
 #include <iostream>
 #include <random>
 
+int maxLength(double *m, int n){
+    int maxLength = 1;
+    int currentLength = 1;
+    
+    for(int i=1;i<n;i++){
+        if(m[i] != m[i-1]){
+            currentLength++;
+            if (currentLength > maxLength) {
+                maxLength = currentLength;
+            }
+        }else{
+            currentLength = 1;
+        }
+    }
+
+    return maxLength;
+}
+int sum(double *m, int n){
+    double sum = 0;
+    bool lamp = false;
+    for(int i=0;i<n;i++){
+        if(lamp){
+            sum += abs(m[i]);
+        }
+        if(m[i]==0 && !lamp){
+            lamp = true;
+        }
+    }
+    return sum;
+}
+
+void replace(double *m, int n){
+    int pos = 1;
+    for(int i=2;i<n;i+=2){
+        double temp = m[i];
+
+        for(int j=i;j>pos;j--){
+            m[j] = m[j-1];
+        }
+        m[pos] = temp;
+        pos++;
+    }
+}
+
 int main(){
     int n;
-    double* m = new double[n];
 
     std::cout << "Type n: ";
     if(!(std::cin >> n)){
         std::cout << "Invalid input, error";
         std::exit(1);
     }
+
+    double* m = new double[n];
     
     std::cout << "Do you want to manually enter elements or fill the array randomly?\nPress 1 to manually input, press 2 to random fill: ";
     int input = -1;
@@ -46,45 +91,22 @@ int main(){
     }
 
     
-    int maxLength = 1;
-    int currentLength = 1;
-    
-    for(int i=1;i<n;i++){
-        if(m[i] != m[i-1]){
-            currentLength++;
-            if (currentLength > maxLength) {
-                maxLength = currentLength;
-            }
-        }else{
-            currentLength = 1;
-        }
-    }
-    std::cout << "The length of the longest chain of consecutive distinct elements is " << maxLength << '\n';
+    std::cout << "The length of the longest chain of consecutive distinct elements is " << maxLength(m, n) << '\n';
 
 
-    double sum = 0;
-    bool lamp = false;
-    for(int i=0;i<n;i++){
-        if(lamp){
-            sum += abs(m[i]);
-        }
-        if(m[i]==0 && !lamp){
-            lamp = true;
-        }
-    }
-    std::cout << "The sum of the absolute values of the elements located after the first zero is " << sum << '\n';
+    std::cout << "The sum of the absolute values of the elements located after the first zero is " << sum(m, n) << '\n';
 
     
-    int pos = 1;
+    /*int pos = 1;
     for(int i=2;i<n;i+=2){
         double temp = m[i];
-
         for(int j=i;j>pos;j--){
             m[j] = m[j-1];
         }
         m[pos] = temp;
         pos++;
-    }
+    }*/
+    replace(m, n);
     for(int i=0;i<n;i++){
         std::cout << m[i] << ' ';
     }
