@@ -31,7 +31,6 @@ int sum(double *m, int n){
     }
     return sum;
 }
-
 void replace(double *m, int n){
     int pos = 1;
     for(int i=2;i<n;i+=2){
@@ -92,20 +91,8 @@ int main(){
 
     
     std::cout << "The length of the longest chain of consecutive distinct elements is " << maxLength(m, n) << '\n';
-
-
     std::cout << "The sum of the absolute values of the elements located after the first zero is " << sum(m, n) << '\n';
 
-    
-    /*int pos = 1;
-    for(int i=2;i<n;i+=2){
-        double temp = m[i];
-        for(int j=i;j>pos;j--){
-            m[j] = m[j-1];
-        }
-        m[pos] = temp;
-        pos++;
-    }*/
     replace(m, n);
     for(int i=0;i<n;i++){
         std::cout << m[i] << ' ';
