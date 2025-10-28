@@ -1,6 +1,57 @@
 #include <iostream>
 #include <random>
 
+int dif_el(double *m, int n){
+    int count = 0;
+    for(int i = 0; i < n; i++){
+        bool lamp = true;
+        for(int j=0;j<i;j++){
+            if(m[i] == m[j]){
+                lamp = false;
+                break;
+            }
+        }
+        if(lamp){
+            count++;
+        }
+    }
+    return count;
+}
+double sum(double *m, int n){
+    int pos1,pos2;
+    bool lamp = false;
+    for(int i=0;i<n;i++){
+        if(m[i] > 0){
+            if(!lamp){
+                pos1 = i;
+                lamp = true;
+            }
+            else{
+                pos2 = i;
+                break;
+            }
+        }
+    }
+
+    double sum = 0;
+    for(int i=pos1+1;i<pos2;i++){
+        sum += m[i];
+    }
+    return sum;
+}
+
+void replace(double *m, int n, int a, int b){
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n-i-1;j++){
+            if((m[j] >= a && m[j] <= b) && !(m[j + 1] >= a && m[j + 1] <= b)){
+                double t = m[j];
+                m[j] = m[j + 1];
+                m[j + 1] = t;
+            }
+        }
+    }
+}
+
 int main(){
     const int MAXSIZE = 100;
     int n;
@@ -49,42 +100,8 @@ int main(){
     }
 
     
-    int count = 0;
-    for(int i = 0; i < n; i++){
-        bool lamp = true;
-        for(int j=0;j<i;j++){
-            if(m[i] == m[j]){
-                lamp = false;
-                break;
-            }
-        }
-        if(lamp){
-            count++;
-        }
-    }
-    std::cout << "There are " << count << " different elements\n";
-
-
-    int pos1,pos2;
-    bool lamp = false;
-    for(int i=0;i<n;i++){
-        if(m[i] > 0){
-            if(!lamp){
-                pos1 = i;
-                lamp = true;
-            }
-            else{
-                pos2 = i;
-                break;
-            }
-        }
-    }
-
-    double sum = 0;
-    for(int i=pos1+1;i<pos2;i++){
-        sum += m[i];
-    }
-    std::cout << "Sum of the numbers located between first and second positive elements is " << sum << '\n';
+    std::cout << "There are " << dif_el(m, n) << " different elements\n";
+    std::cout << "Sum of the numbers located between first and second positive elements is " << sum(m, n) << '\n';
 
     double a, b;
     std::cout << "Type an interval, whose elements will be placed after the others.\n";
@@ -93,15 +110,7 @@ int main(){
     std::cout << "Type b: ";
     std::cin >> b; 
 
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n-i;j++){
-            if((m[j] >= a && m[j] <= b) && !(m[j + 1] >= a && m[j + 1] <= b)){
-                double t = m[j];
-                m[j] = m[j + 1];
-                m[j + 1] = t;
-            }
-        }
-    }
+    replace(m, n, a, b);
 
     for(int i=0;i<n;i++){
         std::cout << m[i] << ' ';
