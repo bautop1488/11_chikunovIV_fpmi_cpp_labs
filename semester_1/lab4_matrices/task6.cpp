@@ -32,16 +32,16 @@ int** replace_cols(int**a, int n, int m){
 
 int main(){
     int n, m;
-    int** a = new int*[n];
-
-    for(int i = 0; i < n; i++) {
-        a[i] = new int[m];
-    }
 
     std::cout << "Type n and m: ";
     if(!(std::cin >> n) || !(std::cin >> m)){
         std::cout << "Invalid input, error";
         std::exit(1);
+    }
+
+    int** a = new int*[n];
+    for(int i = 0; i < n; i++) {
+        a[i] = new int[m];
     }
     
     std::cout << "Do you want to manually enter elements or fill the array randomly?\nPress 1 to manually input, press 2 to random fill: ";
