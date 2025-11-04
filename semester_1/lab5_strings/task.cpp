@@ -107,12 +107,12 @@ std::string processString(const std::string& input){
 int main(){
     std::string input;
     
-    std::cout<<"Введите строку: ";
+    std::cout<<"Type a string: ";
     std::getline(std::cin,input);
     
     std::string result=processString(input);
     
-    std::cout<<"Результат: "<<result<<std::endl;
+    std::cout<<"Result: "<<result<<std::endl;
     
     return 0;
 }
