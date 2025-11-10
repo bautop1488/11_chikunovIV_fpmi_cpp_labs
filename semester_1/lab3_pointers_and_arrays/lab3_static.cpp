@@ -1,54 +1,81 @@
 #include <iostream>
 #include <random>
 
-int dif_el(double *m, int n){
+int amountOfDifferentElements(double *m, int n){
     int count = 0;
-    for(int i = 0; i < n; i++){
-        bool lamp = true;
-        for(int j=0;j<i;j++){
+    bool is_different;
+    for(int i = 0;i < n;++i){
+        is_different = true;
+        for(int j = 0;j < i;++j){
             if(m[i] == m[j]){
-                lamp = false;
+                is_different = false;
                 break;
             }
         }
-        if(lamp){
+        if(is_different){
             count++;
         }
     }
     return count;
 }
-double sum(double *m, int n){
-    int pos1,pos2;
-    bool lamp = false;
-    for(int i=0;i<n;i++){
+
+void sumBetweenPositives(double *m, int n){
+    int first_positive = -1, second_positive = -1;
+    bool is_first_positive_is_finded = false;
+    for(int i = 0;i < n;++i){
         if(m[i] > 0){
-            if(!lamp){
-                pos1 = i;
-                lamp = true;
+            if(!is_first_positive_is_finded){
+                first_positive = i;
+                is_first_positive_is_finded = true;
             }
             else{
-                pos2 = i;
+                second_positive = i;
                 break;
             }
         }
     }
 
+    if(first_positive == -1 || second_positive == -1){
+        throw "You need at least 2 positive elements;";
+    }
+
     double sum = 0;
-    for(int i=pos1+1;i<pos2;i++){
+    for(int i = first_positive+1;i < second_positive;i++){
         sum += m[i];
     }
-    return sum;
+    std::cout << "Sum of the numbers located between first and second positive elements is " << sum << '\n';
 }
 
-void replace(double *m, int n, int a, int b){
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n-i-1;j++){
-            if((m[j] >= a && m[j] <= b) && !(m[j + 1] >= a && m[j + 1] <= b)){
-                double t = m[j];
-                m[j] = m[j + 1];
-                m[j + 1] = t;
+void replace(double* arr, int n, double a, double b){
+    int count = 0;
+    for(int k = 0;k < n;++k){
+        int i;
+        for(i = count;i < n;++i){
+            if(arr[i] <= a || arr[i] >= b){
+                count++;
+                break;
             }
         }
+
+        for(int j = i;j >= count;--j){
+            if((arr[j] <= a || arr[j] >= b) && (arr[j-1] >= a && arr[j-1] <= b)){
+                std::swap(arr[j], arr[j-1]);
+            }
+        }
+    }
+}
+
+double input_check(double a){
+    if(!(std::cin >> a)){
+        std::cout  << "Incorrect input";
+        std::exit(1);
+    }
+    return a;
+}
+
+void print_array(double* m, int n){
+    for(int i=0;i<n;++i){
+        std::cout << m[i] << ' ';
     }
 }
 
@@ -57,64 +84,68 @@ int main(){
     int n;
     double m[MAXSIZE];
 
-    std::cout << "Type n: ";
-    std::cin >> n;
-    if(n>MAXSIZE){
+    std::cout << "Enter n: ";
+    n = input_check(n);
+    if(n > MAXSIZE){
         std::cout  << "Error: Array out of bounds";
         std::exit(1);
     }
     
     std::cout << "Do you want to manually enter elements or fill the array randomly?\nPress 1 to manually input, press 2 to random fill: ";
-    int input = -1;
-    if(!(std::cin >> input) || !(input==1 || input==2)){
-        std::cout  << "Incorrect input";
-        std::exit(1);
-    }
+    double random_mode = -1;
+    random_mode = input_check(random_mode);
 
-    if(input == 1){
-        std::cout << "Type " << n << " elements:\n";
-        for(int i=0;i<n;i++){
-            std::cin >> m[i];
+    if(random_mode == 1){
+        std::cout << "Enter " << n << " elements:\n";
+        for(int i = 0;i < n;i++){
+            m[i] = input_check(m[i]);
         }
     }
     else{
         double a, b;
-        std::cout << "Type the interval in which the elements of the array will be located.\n";
-        std::cout << "Type a: ";
-        std::cin >> a; 
-        std::cout << "Type b: ";
-        std::cin >> b;
+        std::cout << "Enter the interval in which the elements of the array will be located.\n";
+        std::cout << "Enter a: ";
+        a = input_check(a);
+        std::cout << "Enter b: ";
+        b = input_check(b);
     
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<double> dist(a, b);
     
-        for(int i=0;i<n;i++){
+        for(int i = 0;i < n;i++){
             m[i] = dist(gen);
         }
       
-        for(int i=0;i<n;i++){
-            std::cout << m[i] << ' ';
-        }
+        print_array(m, n);
         std::cout << '\n';
     }
-
     
-    std::cout << "There are " << dif_el(m, n) << " different elements\n";
-    std::cout << "Sum of the numbers located between first and second positive elements is " << sum(m, n) << '\n';
+    std::cout << "There are " << amountOfDifferentElements(m, n) << " different elements\n";
+
+    try{
+        sumBetweenPositives(m, n);
+    }
+    catch(const char* msg)
+    {
+        std::cout << msg;
+        std::exit(1);
+    }
 
     double a, b;
-    std::cout << "Type an interval, whose elements will be placed after the others.\n";
-    std::cout << "Type a: ";
-    std::cin >> a; 
-    std::cout << "Type b: ";
-    std::cin >> b; 
+    std::cout << "Enter an interval, whose elements will be placed after the others.\n";
+    std::cout << "Enter a: ";
+    a = input_check(a);
+    std::cout << "Enter b: ";
+    b = input_check(b);
+    if(a > b){
+        std::cout << "Left border of the interval shouldn't be greater than right border";
+        std::exit(1);
+    }
 
     replace(m, n, a, b);
 
-    for(int i=0;i<n;i++){
-        std::cout << m[i] << ' ';
-    }
+    print_array(m, n);
     
     return 0;
 }
