@@ -1,7 +1,7 @@
 #include <iostream>
 #include <random>
 
-int amountOfDifferentElements(double *m, int n){
+void amountOfDifferentElements(double *m, int n){
     int count = 0;
     bool is_different;
     for(int i = 0;i < n;++i){
@@ -16,7 +16,7 @@ int amountOfDifferentElements(double *m, int n){
             count++;
         }
     }
-    return count;
+    std::cout << "There are " << count << " different elements\n";
 }
 
 void sumBetweenPositives(double *m, int n){
@@ -65,16 +65,15 @@ void replace(double* arr, int n, double a, double b){
     }
 }
 
-double input_check(double a){
+void input(double& a){
     if(!(std::cin >> a)){
-        std::cout  << "Incorrect input";
+        std::cout << "Incorrect input";
         std::exit(1);
     }
-    return a;
 }
 
 void print_array(double* m, int n){
-    for(int i=0;i<n;++i){
+    for(int i = 0;i < n;++i){
         std::cout << m[i] << ' ';
     }
 }
@@ -85,29 +84,36 @@ int main(){
     double m[MAXSIZE];
 
     std::cout << "Enter n: ";
-    n = input_check(n);
+    if(!(std::cin >> n)){
+        std::cout << "Incorrect input";
+        std::exit(1);
+    }
+
     if(n > MAXSIZE){
         std::cout  << "Error: Array out of bounds";
         std::exit(1);
     }
     
     std::cout << "Do you want to manually enter elements or fill the array randomly?\nPress 1 to manually input, press 2 to random fill: ";
-    double random_mode = -1;
-    random_mode = input_check(random_mode);
+    int random_mode = -1;
+    if(!(std::cin >> random_mode) || !(random_mode==1 || random_mode==2)){
+        std::cout  << "Incorrect input";
+        std::exit(1);
+    }
 
     if(random_mode == 1){
         std::cout << "Enter " << n << " elements:\n";
         for(int i = 0;i < n;i++){
-            m[i] = input_check(m[i]);
+            input(m[i]);
         }
     }
     else{
         double a, b;
         std::cout << "Enter the interval in which the elements of the array will be located.\n";
         std::cout << "Enter a: ";
-        a = input_check(a);
+        input(a);
         std::cout << "Enter b: ";
-        b = input_check(b);
+        input(b);
     
         std::random_device rd;
         std::mt19937 gen(rd());
@@ -121,8 +127,8 @@ int main(){
         std::cout << '\n';
     }
     
-    std::cout << "There are " << amountOfDifferentElements(m, n) << " different elements\n";
-
+    amountOfDifferentElements(m, n);
+    
     try{
         sumBetweenPositives(m, n);
     }
@@ -135,9 +141,9 @@ int main(){
     double a, b;
     std::cout << "Enter an interval, whose elements will be placed after the others.\n";
     std::cout << "Enter a: ";
-    a = input_check(a);
+    input(a);
     std::cout << "Enter b: ";
-    b = input_check(b);
+    input(b);
     if(a > b){
         std::cout << "Left border of the interval shouldn't be greater than right border";
         std::exit(1);

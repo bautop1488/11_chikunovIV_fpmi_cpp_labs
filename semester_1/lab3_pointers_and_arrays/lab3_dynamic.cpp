@@ -1,11 +1,11 @@
 #include <iostream>
 #include <random>
 
-int maxLength(double *m, int n){
+void maxLength(double *m, int n){
     int maxLength = 1;
     int currentLength = 1;
     
-    for(int i=1;i<n;i++){
+    for(int i = 1;i < n;++i){
         if(m[i] != m[i-1]){
             currentLength++;
             if (currentLength > maxLength) {
@@ -15,28 +15,32 @@ int maxLength(double *m, int n){
             currentLength = 1;
         }
     }
-
-    return maxLength;
+    std::cout << "The length of the longest chain of consecutive distinct elements is " << maxLength << '\n';
 }
-int sum(double *m, int n){
+
+void sumAfterZero(double *m, int n){
     double sum = 0;
-    bool lamp = false;
-    for(int i=0;i<n;i++){
-        if(lamp){
+    bool is_zero_finded = false;
+    for(int i = 0;i < n;++i){
+        if(is_zero_finded){
             sum += abs(m[i]);
-        }
-        if(m[i]==0 && !lamp){
-            lamp = true;
+        }else if(m[i] == 0){
+            is_zero_finded = true;
         }
     }
-    return sum;
+    
+    if(!is_zero_finded){
+        throw "You need at least 1 zero to solve the task";
+    }
+    std::cout << "The sum of the absolute values of the elements located after the first zero is " << sum << '\n';
 }
+
 void replace(double *m, int n){
     int pos = 1;
-    for(int i=2;i<n;i+=2){
+    for(int i = 2;i < n;i += 2){
         double temp = m[i];
 
-        for(int j=i;j>pos;j--){
+        for(int j = i;j > pos;--j){
             m[j] = m[j-1];
         }
         m[pos] = temp;
@@ -44,59 +48,74 @@ void replace(double *m, int n){
     }
 }
 
+void input(double& a){
+    if(!(std::cin >> a)){
+        std::cout << "Incorrect input";
+        std::exit(1);
+    }
+}
+
+void print_array(double* m, int n){
+    for(int i = 0;i < n;++i){
+        std::cout << m[i] << ' ';
+    }
+}
+
 int main(){
     int n;
 
-    std::cout << "Type n: ";
+    std::cout << "Enter n: ";
     if(!(std::cin >> n)){
-        std::cout << "Invalid input, error";
+        std::cout << "Incorrect input";
         std::exit(1);
     }
 
     double* m = new double[n];
     
     std::cout << "Do you want to manually enter elements or fill the array randomly?\nPress 1 to manually input, press 2 to random fill: ";
-    int input = -1;
-    if(!(std::cin >> input) || !(input==1 || input==2)){
+    int random_mode = -1;
+    if(!(std::cin >> random_mode) || !(random_mode==1 || random_mode==2)){
         std::cout  << "Incorrect input";
         std::exit(1);
     }
 
-    if(input == 1){
-        std::cout << "Type " << n << " elements:\n";
-        for(int i=0;i<n;i++){
-            std::cin >> m[i];
+    if(random_mode == 1){
+        std::cout << "Enter " << n << " elements:\n";
+        for(int i = 0;i < n;++i){
+            input(m[i]);
         }
     }
     else{
         double a, b;
-        std::cout << "Type the interval in which the elements of the array will be located.\n";
-        std::cout << "Type a: ";
-        std::cin >> a; 
-        std::cout << "Type b: ";
-        std::cin >> b;
+        std::cout << "Enter the interval in which the elements of the array will be located.\n";
+        std::cout << "Enter a: ";
+        input(a);
+        std::cout << "Enter b: ";
+        input(b);
     
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<double> dist(a, b);
     
-        for(int i=0;i<n;i++){
+        for(int i = 0;i < n;++i){
             m[i] = dist(gen);
         }
-        for(int i=0;i<n;i++){
-            std::cout << m[i] << ' ';
-        }
+        print_array(m, n);
         std::cout << '\n';
     }
 
-    
-    std::cout << "The length of the longest chain of consecutive distinct elements is " << maxLength(m, n) << '\n';
-    std::cout << "The sum of the absolute values of the elements located after the first zero is " << sum(m, n) << '\n';
-
-    replace(m, n);
-    for(int i=0;i<n;i++){
-        std::cout << m[i] << ' ';
+    try{
+        maxLength(m, n);
+        sumAfterZero(m, n);
+        replace(m, n);
     }
+    catch(const char* msg)
+    {
+        std::cout << msg;
+        std::exit(1);
+    }
+
+    print_array(m, n);
 
     delete[] m;
     return 0;
