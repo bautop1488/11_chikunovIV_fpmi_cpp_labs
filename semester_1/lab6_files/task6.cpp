@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 
-
 std::vector<std::string> readFile(const std::string& filename){
     std::vector<std::string> lines;
     std::ifstream file(filename);
@@ -55,7 +54,7 @@ int main(){
         std::cout << e.what();
     }
     
-    size_t maxLength = 0;
+    int maxLength = 0;
     std::vector<std::string> resultLines;
     
     for(const std::string& line : lines){
