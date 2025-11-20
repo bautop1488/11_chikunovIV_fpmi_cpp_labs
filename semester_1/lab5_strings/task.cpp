@@ -6,9 +6,10 @@ void splitString(const std::string& input, std::string words[], int& wordCount){
     bool inWord = false;
     std::string currentWord = "";
     
-    for(int i=0;i<=input.length();i++){
-        char c = (i<input.length()) ? input[i] : ' ';
-        
+    char c;
+    for(int i = 0;i <= input.length();++i){
+        c = (i < input.length()) ? input[i] : ' ';
+
         if(c != ' '){
             if(!inWord){
                 inWord = true;
@@ -25,7 +26,7 @@ void splitString(const std::string& input, std::string words[], int& wordCount){
 }
 
 bool isWord(const std::string& word){
-    for(char c:word){
+    for(char c : word){
         if(!std::isdigit(c)){
             return false;
         }
@@ -36,40 +37,40 @@ bool isWord(const std::string& word){
 std::string processString(const std::string& input){
     const int MAX_WORDS = 100;
     std::string words[MAX_WORDS];
-    int wordCount = 0;
+    int wordCount;
     
-    splitString(input,words,wordCount);
+    splitString(input, words, wordCount);
     
-    if(wordCount==0){
-        return input;
+    if(wordCount == 0){
+        throw "Error: you should enter something";
     }
     
-    std::string maxNumber = "";
-    for(int i=0;i<wordCount;i++){
+    int maxNumber = -1;
+    for(int i = 0;i < wordCount;++i){
         if(isWord(words[i])){
-            if(maxNumber.empty() || words[i].length() >= maxNumber.length()){
-                maxNumber=words[i];
+            if(maxNumber == -1 || std::stoi(words[i]) >= maxNumber){
+                maxNumber = std::stoi(words[i]);
             }
         }
     }
     
-    if(maxNumber.empty()){
+    if(maxNumber == -1){
         return input;
     }
     
-    int targetIndex=-1;
-    int maxCount=0;
+    int targetIndex = -1;
+    int maxCount = 0;
     
-    for(int i=0;i<wordCount;i++){
-        if(isWord(words[i])&&words[i]==maxNumber){
+    for(int i = 0;i < wordCount;++i){
+        if(isWord(words[i]) && std::stoi(words[i]) == maxNumber){
             maxCount++;
         }
     }
     
-    if(maxCount >= 2){
-        int currentCount=0;
-        for(int i=0;i<wordCount;i++){
-            if(isWord(words[i])&&words[i] == maxNumber){
+    if(maxCount > 1){
+        int currentCount = 0;
+        for(int i = 0;i < wordCount;++i){
+            if(isWord(words[i]) && std::stoi(words[i]) == maxNumber){
                 currentCount++;
                 if(currentCount == maxCount-1){
                     targetIndex = i;
@@ -78,8 +79,8 @@ std::string processString(const std::string& input){
             }
         }
     }else{
-        for(int i=0;i<wordCount;i++){
-            if(isWord(words[i]) && words[i] == maxNumber){
+        for(int i = 0;i < wordCount;++i){
+            if(isWord(words[i]) && std::stoi(words[i]) == maxNumber){
                 targetIndex = i;
                 break;
             }
@@ -92,7 +93,7 @@ std::string processString(const std::string& input){
         result += words[targetIndex];
     }
     
-    for(int i=0;i<wordCount;i++){
+    for(int i = 0;i < wordCount;++i){
         if(i != targetIndex){
             if(!result.empty()){
                 result += " ";
@@ -107,12 +108,14 @@ std::string processString(const std::string& input){
 int main(){
     std::string input;
     
-    std::cout<<"Type a string: ";
-    std::getline(std::cin,input);
+    std::cout << "Enter a string: ";
+    std::getline(std::cin, input);
     
-    std::string result=processString(input);
-    
-    std::cout<<"Result: "<<result<<std::endl;
+    try{
+        std::cout << processString(input) << std::endl;
+    }catch(const char* e){
+        std::cout << e;
+    }
     
     return 0;
 }
