@@ -1,0 +1,10 @@
+,.
+a,bcd,123,
+1,2,4,3,
+efa,evrg,vg,
+ra.ta.ty,pe.,....error
+6
+6123,1,2,4,3,6,6,
+Perfect: 6 = 1 + 2 + 3
+Perfect: 6 = 1 + 2 + 3
+Not perfect: 123, 1, 2, 4, 3
